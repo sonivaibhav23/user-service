@@ -1,10 +1,15 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
-        stage('Build') {
+        stage('Maven Build') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                container('java') {
+                    mvnBuild(
+                        junitTestReportsEnabled: false
+                    )
+                }
+                // sh 'mvn clean install -DskipTests'
             }
         }
         stage('Test') {
